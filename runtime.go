@@ -1936,27 +1936,25 @@ func (r *Runtime) toValue(i interface{}, origValue reflect.Value) Value {
 
 	switch value.Kind() {
 	case reflect.Map:
-		if value.Type().NumMethod() == 0 {
-			switch value.Type().Key().Kind() {
-			case reflect.String, reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64,
-				reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64,
-				reflect.Float64, reflect.Float32:
+		switch value.Type().Key().Kind() {
+		case reflect.String, reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64,
+			reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64,
+			reflect.Float64, reflect.Float32:
 
-				obj := &Object{runtime: r}
-				m := &objectGoMapReflect{
-					objectGoReflect: objectGoReflect{
-						baseObject: baseObject{
-							val:        obj,
-							extensible: true,
-						},
-						origValue:   origValue,
-						fieldsValue: value,
+			obj := &Object{runtime: r}
+			m := &objectGoMapReflect{
+				objectGoReflect: objectGoReflect{
+					baseObject: baseObject{
+						val:        obj,
+						extensible: true,
 					},
-				}
-				m.init()
-				obj.self = m
-				return obj
+					origValue:   origValue,
+					fieldsValue: value,
+				},
 			}
+			m.init()
+			obj.self = m
+			return obj
 		}
 	case reflect.Array:
 		obj := &Object{runtime: r}
