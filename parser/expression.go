@@ -3,10 +3,10 @@ package parser
 import (
 	"strings"
 
-	"github.com/dop251/goja/ast"
-	"github.com/dop251/goja/file"
-	"github.com/dop251/goja/token"
-	"github.com/dop251/goja/unistring"
+	"github.com/link-duan/goja/ast"
+	"github.com/link-duan/goja/file"
+	"github.com/link-duan/goja/token"
+	"github.com/link-duan/goja/unistring"
 )
 
 func (self *_parser) parseIdentifier() *ast.Identifier {

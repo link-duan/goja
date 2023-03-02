@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"unsafe"
 
-	"github.com/dop251/goja/unistring"
+	"github.com/link-duan/goja/unistring"
 )
 
 type byteOrder bool
