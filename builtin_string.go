@@ -1,11 +1,12 @@
 package goja
 
 import (
-	"github.com/dop251/goja/unistring"
 	"math"
 	"strings"
 	"unicode/utf16"
 	"unicode/utf8"
+
+	"github.com/dop251/goja/unistring"
 
 	"github.com/dop251/goja/parser"
 	"golang.org/x/text/collate"
@@ -672,6 +673,14 @@ func (r *Runtime) stringproto_replace(call FunctionCall) Value {
 	return stringReplace(s, found, str, rcall)
 }
 
+func (r *Runtime) stringproto_replaceAll(call FunctionCall) Value {
+	r.checkObjectCoercible(call.This)
+	s := call.This.toString().String()
+	searchValue := call.Argument(0).String()
+	replaceValue := call.Argument(1).String()
+	return asciiString(strings.ReplaceAll(s, searchValue, replaceValue))
+}
+
 func (r *Runtime) stringproto_search(call FunctionCall) Value {
 	r.checkObjectCoercible(call.This)
 	regexp := call.Argument(0)
@@ -968,6 +977,7 @@ func (r *Runtime) initString() {
 	o._putProp("padStart", r.newNativeFunc(r.stringproto_padStart, nil, "padStart", nil, 1), true, false, true)
 	o._putProp("repeat", r.newNativeFunc(r.stringproto_repeat, nil, "repeat", nil, 1), true, false, true)
 	o._putProp("replace", r.newNativeFunc(r.stringproto_replace, nil, "replace", nil, 2), true, false, true)
+	o._putProp("replaceAll", r.newNativeFunc(r.stringproto_replaceAll, nil, "replaceAll", nil, 2), true, false, true)
 	o._putProp("search", r.newNativeFunc(r.stringproto_search, nil, "search", nil, 1), true, false, true)
 	o._putProp("slice", r.newNativeFunc(r.stringproto_slice, nil, "slice", nil, 2), true, false, true)
 	o._putProp("split", r.newNativeFunc(r.stringproto_split, nil, "split", nil, 2), true, false, true)
